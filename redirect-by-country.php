@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Cloudflare Country Redirect
+Plugin Name: Country Redirect
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
 Version: 1.0.1
 Author: Tahir Asadli
