@@ -1,9 +1,9 @@
 === Cloudflare Country Redirect ===
 Contributors: yourusername
 Tags: cloudflare, geolocation, redirect, country, geolocation-redirect, country-redirect
-Requires at least: 5.0
-Tested up to: 5.7
-Stable tag: 1.0.0
+Requires at least: 6.8
+Tested up to: 6.8
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 == Description ==
@@ -29,6 +29,10 @@ It also allows you to enable or disable redirection, and configure the duration 
 - **Cookie Lifetime**: Configure how many days to prevent repeated redirection.
 
 == Changelog ==
+
+= 1.0.1 =
+* Add placeholders to input fields
+
 = 1.0.0 =
 * Initial release.
 * Added functionality to redirect users based on Cloudflare’s IP Geolocation.
@@ -54,8 +58,6 @@ You can add or edit the country-to-URL mapping directly from the plugin settings
 
 == Screenshots ==
 1. Screenshot of the plugin settings page.
-2. Screenshot of adding/editing redirection rules.
-3. Screenshot of the "Enable Redirects" option.
 
 == Support ==
 If you encounter any issues or need help, please visit the plugin's support forum on WordPress.org.
