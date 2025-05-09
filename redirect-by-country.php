@@ -3,7 +3,8 @@
 Plugin Name: Cloudflare Country Redirect
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
 Version: 1.0.1
-Author: Your Name
+Author: Tahir Asadli
+Author URI: https://github.com/tahir-asadov
 License: GPLv2 or later
 */
 
