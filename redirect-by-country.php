@@ -213,8 +213,10 @@ function ccr_settings_page()
           <?php if (!empty($rules)): ?>
             <?php foreach ($rules as $rule): ?>
               <tr>
-                <td><input type="text" name="country[]" value="<?php echo esc_attr($rule['country']); ?>" /></td>
-                <td><input type="url" name="url[]" value="<?php echo esc_url($rule['url']); ?>" style="width: 100%;" /></td>
+                <td><input type="text" placeholder="Country code: es" name="country[]"
+                    value="<?php echo esc_attr($rule['country']); ?>" /></td>
+                <td><input type="url" placeholder="https://example.com/es" name="url[]"
+                    value="<?php echo esc_url($rule['url']); ?>" style="width: 100%;" /></td>
                 <td><button type="button" class="button ccr-remove-row">Remove</button></td>
               </tr>
             <?php endforeach; ?>
