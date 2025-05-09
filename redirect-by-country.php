@@ -10,18 +10,22 @@ License: GPLv2 or later
 // Redirect visitors based on their country
 function ccr_geo_redirect()
 {
-  // Skip if admin, AJAX, already redirected, or redirection is off
+  // Skip if admin, AJAX, already redirected, redirection is off, or not front page
   if (
     is_admin() ||
     (defined('DOING_AJAX') && DOING_AJAX) ||
     isset($_COOKIE['ccr_redirected']) ||
     !is_front_page() ||
-    !get_option('ccr_redirect_enabled', 1) // Only redirect if enabled
+    !get_option('ccr_redirect_enabled', 1)
   ) {
     return;
   }
 
-  // Get the country code from Cloudflare's header
+  // Skip if bot/crawler
+  if (ccr_is_bot()) {
+    return;
+  }
+
   $country = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? null;
   $rules = get_option('ccr_redirect_rules', []);
 
@@ -36,22 +40,53 @@ function ccr_geo_redirect()
     $rule_target_path = trim(parse_url($rule['url'], PHP_URL_PATH), '/');
 
     if ($rule_country === strtoupper($country)) {
-      // Already on correct path? Skip redirect.
       if ($current_path === $rule_target_path) {
         return;
       }
 
-      // Set cookie to prevent repeat
       $cookie_days = intval(get_option('ccr_cookie_days', 7));
       $cookie_lifetime = time() + ($cookie_days * 24 * 60 * 60);
       setcookie('ccr_redirected', '1', $cookie_lifetime, "/");
 
-      // Redirect to target path
       $redirect_url = home_url($rule_target_path);
       wp_redirect($redirect_url, 302);
       exit;
     }
   }
+}
+
+function ccr_is_bot()
+{
+  if (empty($_SERVER['HTTP_USER_AGENT'])) {
+    return false;
+  }
+
+  $bots = [
+    'bot',
+    'crawl',
+    'slurp',
+    'spider',
+    'mediapartners',
+    'google',
+    'bingpreview',
+    'facebookexternalhit',
+    'linkedinbot',
+    'embedly',
+    'quora link preview',
+    'outbrain',
+    'pinterest',
+    'developers.google.com/+/web/snippet'
+  ];
+
+  $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+  foreach ($bots as $bot) {
+    if (strpos($agent, $bot) !== false) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // Register plugin settings page in the admin menu
