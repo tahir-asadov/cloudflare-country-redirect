@@ -1,23 +1,64 @@
 === Cloudflare Country Redirect ===
-Contributors: your-wp-username
-Tags: redirect, geolocation, cloudflare, ip, country
+Contributors: yourusername
+Tags: cloudflare, geolocation, redirect, country, geolocation-redirect, country-redirect
 Requires at least: 5.0
-Tested up to: 6.5
-Requires PHP: 7.2
+Tested up to: 5.7
 Stable tag: 1.0.0
 License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
-Redirect visitors based on their country using Cloudflare's geolocation header.
 
 == Description ==
-This plugin reads the CF-IPCountry header provided by Cloudflare and redirects visitors to specific URLs based on their country code.
+The Cloudflare Country Redirect plugin allows you to redirect users based on their country using Cloudflare's IP Geolocation feature. You can configure custom redirection rules based on the user's country. 
+
+It also allows you to enable or disable redirection, and configure the duration of a cookie that prevents repeated redirections. The plugin is fully configurable through a settings page in the WordPress admin dashboard.
+
+== Features ==
+* Redirect users based on their country using Cloudflare's IP Geolocation.
+* Add, edit, and delete country-to-URL redirection rules from the WordPress admin.
+* Enable/disable redirection functionality directly from the settings page.
+* Set the cookie lifetime to prevent repeated redirection.
+* Secure and follows WordPress plugin standards.
 
 == Installation ==
-1. Upload the plugin files to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu
-3. Customize redirection rules in the plugin file (or future settings page)
+1. Upload the plugin directory to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Go to the plugin settings page to add redirection rules and configure the plugin.
+
+== Configuration ==
+- **Enable Redirects**: Enable or disable the plugin's redirection feature.
+- **Redirect Rules**: Define country-to-URL redirection rules in the settings.
+- **Cookie Lifetime**: Configure how many days to prevent repeated redirection.
 
 == Changelog ==
 = 1.0.0 =
-* First release
+* Initial release.
+* Added functionality to redirect users based on Cloudflare’s IP Geolocation.
+* Ability to add, edit, and delete country-to-URL redirection rules.
+* Configurable cookie lifetime to prevent repeated redirects.
+
+== Frequently Asked Questions ==
+
+= How do I add redirection rules? =
+Go to the plugin settings page in the WordPress admin and enter the country-to-URL mapping in the "Redirection Rules" section.
+
+= How does the plugin know the user's country? =
+The plugin uses Cloudflare's IP Geolocation feature to detect the user's country.
+
+= How does the cookie work? =
+Once a user is redirected based on their country, a cookie is set to prevent the user from being redirected again during the specified lifetime.
+
+= Can I turn off the redirection feature? =
+Yes, you can enable or disable the redirection functionality from the plugin settings page.
+
+= Where do I configure the redirect URL for each country? =
+You can add or edit the country-to-URL mapping directly from the plugin settings page.
+
+== Screenshots ==
+1. Screenshot of the plugin settings page.
+2. Screenshot of adding/editing redirection rules.
+3. Screenshot of the "Enable Redirects" option.
+
+== Support ==
+If you encounter any issues or need help, please visit the plugin's support forum on WordPress.org.
+
+== License ==
+This plugin is licensed under the GPLv2 or later license.
