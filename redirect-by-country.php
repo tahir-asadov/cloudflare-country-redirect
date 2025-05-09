@@ -231,6 +231,14 @@ function ccr_enqueue_admin_scripts($hook)
   );
 }
 
+function ccr_add_settings_link($links)
+{
+  $settings_link = '<a href="' . admin_url('options-general.php?page=ccr_settings') . '">Settings</a>';
+  array_unshift($links, $settings_link);
+  return $links;
+}
+
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'ccr_add_settings_link');
 add_action('admin_enqueue_scripts', 'ccr_enqueue_admin_scripts');
 add_action('template_redirect', 'ccr_geo_redirect');
 add_action('admin_menu', 'ccr_add_admin_menu');
