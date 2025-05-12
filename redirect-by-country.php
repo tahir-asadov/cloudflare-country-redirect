@@ -116,50 +116,6 @@ function ccr_settings_init()
 		'ccr_settings'
 	);
 
-	add_settings_field(
-		'ccr_redirect_rules_field',
-		'Country-to-URL Map (JSON)',
-		'ccr_rules_field_render',
-		'ccr_settings',
-		'ccr_section_main'
-	);
-
-	add_settings_field(
-		'ccr_cookie_days_field',
-		'Redirect Cookie Lifetime (days)',
-		'ccr_cookie_days_field_render',
-		'ccr_settings',
-		'ccr_section_main'
-	);
-
-	add_settings_field(
-		'ccr_redirect_enabled_field',
-		'Enable Redirects',
-		'ccr_redirect_enabled_field_render',
-		'ccr_settings',
-		'ccr_section_main'
-	);
-}
-
-// Render the Country-to-URL Map (JSON) field
-function ccr_rules_field_render()
-{
-	$value = get_option('ccr_redirect_rules', '{}');
-	echo '<textarea name="ccr_redirect_rules" rows="10" cols="60">' . esc_textarea($value) . '</textarea>';
-}
-
-// Render the Redirect Cookie Lifetime (days) field
-function ccr_cookie_days_field_render()
-{
-	$value = get_option('ccr_cookie_days', 7);
-	echo '<input type="number" name="ccr_cookie_days" value="' . esc_attr($value) . '" min="1" />';
-}
-
-// Render the Enable Redirects field
-function ccr_redirect_enabled_field_render()
-{
-	$value = get_option('ccr_redirect_enabled', 1);
-	echo '<input type="checkbox" name="ccr_redirect_enabled" value="1" ' . checked(1, $value, false) . ' />';
 }
 
 // Display the settings page
@@ -242,8 +198,8 @@ function ccr_settings_page()
 				<tr>
 					<th scope="row"><label for="ccr_cookie_days">Redirect Cookie Lifetime (days)</label></th>
 					<td>
-						<input type="number" name="ccr_cookie_days" id="ccr_cookie_days"
-							value="<?php echo esc_attr($cookie_days); ?>" min="1" />
+						<input type="number" name="ccr_cookie_days" id="ccr_cookie_days" value="<?php echo esc_attr($cookie_days); ?>"
+							min="1" />
 						<p class="description">How many days to prevent repeated redirection.</p>
 					</td>
 				</tr>
