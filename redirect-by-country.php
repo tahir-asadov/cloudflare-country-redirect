@@ -105,9 +105,18 @@ function ccr_add_admin_menu()
 // Initialize plugin settings
 function ccr_settings_init()
 {
-	register_setting('ccr_plugin_settings', 'ccr_redirect_rules');
-	register_setting('ccr_plugin_settings', 'ccr_cookie_days');
-	register_setting('ccr_plugin_settings', 'ccr_redirect_enabled');
+
+	register_setting('ccr_plugin_settings', 'ccr_redirect_rules', [
+		'sanitize_callback' => 'ccr_sanitize_rules'
+	]);
+
+	register_setting('ccr_plugin_settings', 'ccr_cookie_days', [
+		'sanitize_callback' => 'absint'
+	]);
+
+	register_setting('ccr_plugin_settings', 'ccr_redirect_enabled', [
+		'sanitize_callback' => 'ccr_sanitize_checkbox'
+	]);
 
 	add_settings_section(
 		'ccr_section_main',
@@ -116,6 +125,31 @@ function ccr_settings_init()
 		'ccr_settings'
 	);
 
+}
+function ccr_sanitize_rules($input)
+{
+	$sanitized = [];
+
+	if (is_array($input)) {
+		foreach ($input as $rule) {
+			if (!is_array($rule) || empty($rule['country']) || empty($rule['url'])) {
+				continue;
+			}
+			$country = strtoupper(sanitize_text_field($rule['country']));
+			$url = esc_url_raw($rule['url']);
+
+			if ($country && $url) {
+				$sanitized[] = ['country' => $country, 'url' => $url];
+			}
+		}
+	}
+
+	return $sanitized;
+}
+
+function ccr_sanitize_checkbox($value)
+{
+	return $value === '1' ? 1 : 0;
 }
 
 // Display the settings page
