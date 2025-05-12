@@ -1,4 +1,4 @@
-=== Country Redirect ===
+=== Simple Country Redirect with IP geolocation ===
 Contributors: tahirasad
 Tags: cloudflare, geolocation, redirect, country, geolocation-redirect, country-redirect
 Requires at least: 6.8
