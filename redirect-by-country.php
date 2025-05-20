@@ -13,27 +13,30 @@ if (!defined('ABSPATH')) {
 	die();
 }
 
+
+
+
 /**  Redirect visitors based on their country */
-function ccr_geo_redirect()
+function redirect_by_country_geo_redirect()
 {
 	// Skip if admin, AJAX, already redirected, redirection is off, or not front page.
 	if (
 		is_admin() ||
 		(defined('DOING_AJAX') && DOING_AJAX) ||
-		isset($_COOKIE['ccr_redirected']) ||
+		isset($_COOKIE['redirect_by_country_redirected']) ||
 		!is_front_page() ||
-		!get_option('ccr_redirect_enabled', 1)
+		!get_option('redirect_by_country_redirect_enabled', 1)
 	) {
 		return;
 	}
 
 	// Skip if bot/crawler.
-	if (ccr_is_bot()) {
+	if (redirect_by_country_is_bot()) {
 		return;
 	}
 
 	$country = empty($_SERVER['HTTP_CF_IPCOUNTRY']) ? wp_unslash($_SERVER['HTTP_CF_IPCOUNTRY']) : null;
-	$rules = get_option('ccr_redirect_rules', array());
+	$rules = get_option('redirect_by_country_redirect_rules', array());
 
 	if (!$country || empty($rules)) {
 		return;
@@ -50,9 +53,9 @@ function ccr_geo_redirect()
 				return;
 			}
 
-			$cookie_days = intval(get_option('ccr_cookie_days', 7));
+			$cookie_days = intval(get_option('redirect_by_country_cookie_days', 7));
 			$cookie_lifetime = time() + ($cookie_days * 24 * 60 * 60);
-			setcookie('ccr_redirected', '1', $cookie_lifetime, '/');
+			setcookie('redirect_by_country_redirected', '1', $cookie_lifetime, '/');
 
 			$redirect_url = home_url($rule_target_path);
 			wp_redirect($redirect_url, 302);
@@ -61,7 +64,7 @@ function ccr_geo_redirect()
 	}
 }
 
-function ccr_is_bot()
+function redirect_by_country_is_bot()
 {
 	if (empty($_SERVER['HTTP_USER_AGENT'])) {
 		return false;
@@ -96,42 +99,42 @@ function ccr_is_bot()
 }
 
 // Register plugin settings page in the admin menu
-function ccr_add_admin_menu()
+function redirect_by_country_add_admin_menu()
 {
 	add_options_page(
 		'Country Redirect Settings',
 		'Country Redirect',
 		'manage_options',
-		'ccr_settings',
-		'ccr_settings_page'
+		'redirect_by_country_settings',
+		'redirect_by_country_settings_page'
 	);
 }
 
 // Initialize plugin settings
-function ccr_settings_init()
+function redirect_by_country_settings_init()
 {
 
-	register_setting('ccr_plugin_settings', 'ccr_redirect_rules', [
-		'sanitize_callback' => 'ccr_sanitize_rules'
+	register_setting('redirect_by_country_plugin_settings', 'redirect_by_country_redirect_rules', [
+		'sanitize_callback' => 'redirect_by_country_sanitize_rules'
 	]);
 
-	register_setting('ccr_plugin_settings', 'ccr_cookie_days', [
+	register_setting('redirect_by_country_plugin_settings', 'redirect_by_country_cookie_days', [
 		'sanitize_callback' => 'absint'
 	]);
 
-	register_setting('ccr_plugin_settings', 'ccr_redirect_enabled', [
-		'sanitize_callback' => 'ccr_sanitize_checkbox'
+	register_setting('redirect_by_country_plugin_settings', 'redirect_by_country_redirect_enabled', [
+		'sanitize_callback' => 'redirect_by_country_sanitize_checkbox'
 	]);
 
 	add_settings_section(
-		'ccr_section_main',
+		'redirect_by_country_section_main',
 		'Redirection Rules',
 		null,
-		'ccr_settings'
+		'redirect_by_country_settings'
 	);
 
 }
-function ccr_sanitize_rules($input)
+function redirect_by_country_sanitize_rules($input)
 {
 	$sanitized = [];
 
@@ -152,16 +155,16 @@ function ccr_sanitize_rules($input)
 	return $sanitized;
 }
 
-function ccr_sanitize_checkbox($value)
+function redirect_by_country_sanitize_checkbox($value)
 {
 	return $value === '1' ? 1 : 0;
 }
 
 // Display the settings page
-function ccr_settings_page()
+function redirect_by_country_settings_page()
 {
 	// Handle form submission securely
-	if (isset($_POST['ccr_rules_submit']) && check_admin_referer('ccr_rules_form')) {
+	if (isset($_POST['redirect_by_country_rules_submit']) && check_admin_referer('redirect_by_country_rules_form')) {
 		// Sanitize inputs
 		$countries = isset($_POST['country']) ? array_map('sanitize_text_field', $_POST['country']) : array();
 		$urls = isset($_POST['url']) ? array_map('esc_url_raw', $_POST['url']) : array();
@@ -179,27 +182,27 @@ function ccr_settings_page()
 		}
 
 		// Update settings securely
-		update_option('ccr_redirect_rules', $rules);
+		update_option('redirect_by_country_redirect_rules', $rules);
 
 		// Sanitize and save cookie days and redirect enabled
-		$cookie_days = intval($_POST['ccr_cookie_days'] ?? 7);
-		update_option('ccr_cookie_days', $cookie_days);
+		$cookie_days = intval($_POST['redirect_by_country_cookie_days'] ?? 7);
+		update_option('redirect_by_country_cookie_days', $cookie_days);
 
-		$redirect_enabled = isset($_POST['ccr_redirect_enabled']) ? 1 : 0;
-		update_option('ccr_redirect_enabled', $redirect_enabled);
+		$redirect_enabled = isset($_POST['redirect_by_country_redirect_enabled']) ? 1 : 0;
+		update_option('redirect_by_country_redirect_enabled', $redirect_enabled);
 
 		echo '<div class="updated"><p>Settings saved.</p></div>';
 	}
 
 	// Get the settings for rendering
-	$cookie_days = get_option('ccr_cookie_days', 7);
-	$redirect_enabled = get_option('ccr_redirect_enabled', 1);
-	$rules = get_option('ccr_redirect_rules', array());
+	$cookie_days = get_option('redirect_by_country_cookie_days', 7);
+	$redirect_enabled = get_option('redirect_by_country_redirect_enabled', 1);
+	$rules = get_option('redirect_by_country_redirect_rules', array());
 	?>
 	<div class="wrap">
 		<h1>Country Redirect Settings</h1>
 		<form method="post">
-			<?php wp_nonce_field('ccr_rules_form'); ?>
+			<?php wp_nonce_field('redirect_by_country_rules_form'); ?>
 			<table class="widefat" id="ccr-rules-table">
 				<thead>
 					<tr>
@@ -228,32 +231,33 @@ function ccr_settings_page()
 			<h2>Settings</h2>
 			<table class="form-table">
 				<tr>
-					<th scope="row"><label for="ccr_redirect_enabled">Enable Redirects</label></th>
+					<th scope="row"><label for="redirect_by_country_redirect_enabled">Enable Redirects</label></th>
 					<td>
-						<input type="checkbox" id="ccr_redirect_enabled" name="ccr_redirect_enabled" value="1" <?php checked(1, $redirect_enabled, true); ?> />
+						<input type="checkbox" id="redirect_by_country_redirect_enabled" name="redirect_by_country_redirect_enabled"
+							value="1" <?php checked(1, $redirect_enabled, true); ?> />
 						<p class="description">Check to enable country-based redirection.</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="ccr_cookie_days">Redirect Cookie Lifetime (days)</label></th>
+					<th scope="row"><label for="redirect_by_country_cookie_days">Redirect Cookie Lifetime (days)</label></th>
 					<td>
-						<input type="number" name="ccr_cookie_days" id="ccr_cookie_days" value="<?php echo esc_attr($cookie_days); ?>"
-							min="1" />
+						<input type="number" name="redirect_by_country_cookie_days" id="redirect_by_country_cookie_days"
+							value="<?php echo esc_attr($cookie_days); ?>" min="1" />
 						<p class="description">How many days to prevent repeated redirection.</p>
 					</td>
 				</tr>
 			</table>
-			<p><input type="submit" name="ccr_rules_submit" class="button-primary" value="Save Rules"></p>
+			<p><input type="submit" name="redirect_by_country_rules_submit" class="button-primary" value="Save Rules"></p>
 		</form>
 	</div>
 	<?php
 }
 
 // Enqueue JavaScript file for the plugin settings page
-function ccr_enqueue_admin_scripts($hook)
+function redirect_by_country_enqueue_admin_scripts($hook)
 {
 	// Check if we're on the plugin settings page
-	if ('settings_page_ccr_settings' !== $hook) {
+	if ('settings_page_redirect_by_country_settings' !== $hook) {
 		return;
 	}
 
@@ -267,15 +271,15 @@ function ccr_enqueue_admin_scripts($hook)
 	);
 }
 
-function ccr_add_settings_link($links)
+function redirect_by_country_add_settings_link($links)
 {
-	$settings_link = '<a href="' . admin_url('options-general.php?page=ccr_settings') . '">Settings</a>';
+	$settings_link = '<a href="' . admin_url('options-general.php?page=redirect_by_country_settings') . '">Settings</a>';
 	array_unshift($links, $settings_link);
 	return $links;
 }
 
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'ccr_add_settings_link');
-add_action('admin_enqueue_scripts', 'ccr_enqueue_admin_scripts');
-add_action('template_redirect', 'ccr_geo_redirect');
-add_action('admin_menu', 'ccr_add_admin_menu');
-add_action('admin_init', 'ccr_settings_init');
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'redirect_by_country_add_settings_link');
+add_action('admin_enqueue_scripts', 'redirect_by_country_enqueue_admin_scripts');
+add_action('template_redirect', 'redirect_by_country_geo_redirect');
+add_action('admin_menu', 'redirect_by_country_add_admin_menu');
+add_action('admin_init', 'redirect_by_country_settings_init');
