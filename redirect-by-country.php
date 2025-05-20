@@ -8,6 +8,11 @@ Author URI: https://github.com/tahir-asadov
 License: GPLv2 or later
 */
 
+// Do not load directly.
+if (!defined('ABSPATH')) {
+	die();
+}
+
 /**  Redirect visitors based on their country */
 function ccr_geo_redirect()
 {
