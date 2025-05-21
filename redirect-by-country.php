@@ -4,7 +4,7 @@ Plugin Name: Simple Country Redirect with IP geolocation
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
 Version: 1.0.1
 Author: Tahir Asadli
-Author URI: https://github.com/tahir-asadov
+Author URI: https://tahir-asadov.github.io/
 Text Domain: redirect-by-country
 License: GPLv2 or later
 */
@@ -36,18 +36,22 @@ function redirect_by_country_geo_redirect()
 		return;
 	}
 
-	$country = empty($_SERVER['HTTP_CF_IPCOUNTRY']) ? wp_unslash($_SERVER['HTTP_CF_IPCOUNTRY']) : null;
+	$country = isset($_SERVER['HTTP_CF_IPCOUNTRY']) ? strtoupper(sanitize_text_field(wp_unslash($_SERVER['HTTP_CF_IPCOUNTRY']))) : '';
+
+	if (!preg_match('/^[A-Z]{2}$/', $country)) {
+		$country = null;
+	}
 	$rules = get_option('redirect_by_country_redirect_rules', array());
 
 	if (!$country || empty($rules)) {
 		return;
 	}
 
-	$current_path = trim($_SERVER['REQUEST_URI'], '/');
+	$current_path = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
 
 	foreach ($rules as $rule) {
 		$rule_country = strtoupper($rule['country']);
-		$rule_target_path = trim(parse_url($rule['url'], PHP_URL_PATH), '/');
+		$rule_target_path = trim(wp_parse_url($rule['url'], PHP_URL_PATH), '/');
 
 		if ($rule_country === strtoupper($country)) {
 			if ($current_path === $rule_target_path) {
@@ -88,7 +92,7 @@ function redirect_by_country_is_bot()
 		'developers.google.com/+/web/snippet',
 	);
 
-	$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	$agent = strtolower(sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])));
 
 	foreach ($bots as $bot) {
 		if (strpos($agent, $bot) !== false) {
@@ -167,8 +171,8 @@ function redirect_by_country_settings_page()
 	// Handle form submission securely
 	if (isset($_POST['redirect_by_country_rules_submit']) && check_admin_referer('redirect_by_country_rules_form')) {
 		// Sanitize inputs
-		$countries = isset($_POST['country']) ? array_map('sanitize_text_field', $_POST['country']) : array();
-		$urls = isset($_POST['url']) ? array_map('esc_url_raw', $_POST['url']) : array();
+		$countries = isset($_POST['country']) ? array_map('sanitize_text_field', wp_unslash($_POST['country'])) : array();
+		$urls = isset($_POST['url']) ? array_map('esc_url_raw', wp_unslash($_POST['url'])) : array();
 
 		$rules = array();
 		for ($i = 0; $i < count($countries); $i++) {

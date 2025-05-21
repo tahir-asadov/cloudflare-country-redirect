@@ -1,6 +1,6 @@
 === Simple Country Redirect with IP geolocation ===
 Contributors: tahirasad
-Tags: cloudflare, geolocation, redirect, country, geolocation-redirect, country-redirect
+Tags: cloudflare, geolocation, redirect, country, geolocation-redirect
 Requires at least: 6.8
 Tested up to: 6.8
 Stable tag: 1.0.1
@@ -30,6 +30,7 @@ It also allows you to enable or disable redirection, and configure the duration 
 - **Cookie Lifetime**: Configure how many days to prevent repeated redirection.
 
 == Changelog ==
+
 = 1.0.2 =
 * Update plugin informations
 
