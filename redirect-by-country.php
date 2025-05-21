@@ -216,8 +216,8 @@ function redirect_by_country_settings_page()
 					<?php if (!empty($rules)): ?>
 						<?php foreach ($rules as $rule): ?>
 							<tr>
-								<td><input type="text" placeholder="Country code: es" name="country[]"
-										value="<?php echo esc_attr($rule['country']); ?>" /></td>
+								<td><input type="text" placeholder="<?php esc_html_e('Country Code', 'redirect-by-country'); ?>: es"
+										name="country[]" value="<?php echo esc_attr($rule['country']); ?>" /></td>
 								<td><input type="url" placeholder="https://example.com/es" name="url[]"
 										value="<?php echo esc_url($rule['url']); ?>" style="width: 100%;" /></td>
 								<td><button type="button"
@@ -276,11 +276,12 @@ function redirect_by_country_enqueue_admin_scripts($hook)
 	// Enqueue the JavaScript file
 	wp_enqueue_script(
 		'ccr-admin-scripts',
-		plugin_dir_url(__FILE__) . 'assets/js/ccr-scripts.js',
-		array('jquery', 'wp-i18n'),
-		null,
+		plugin_dir_url(__FILE__) . 'assets/js/ccr-scripts.js?v=2',
+		array('wp-i18n'),
+		'1.0.1',
 		true
 	);
+	// wp_set_script_translations('ccr-admin-scripts', 'redirect-by-country');
 }
 
 function redirect_by_country_add_settings_link($links)
