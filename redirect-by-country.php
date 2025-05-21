@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Country Redirect with IP geolocation
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
-Version: 1.0.1
+Version: 1.0.2
 Author: Tahir Asadli
 Author URI: https://tahir-asadov.github.io/
 Text Domain: redirect-by-country
@@ -13,8 +13,6 @@ License: GPLv2 or later
 if (!defined('ABSPATH')) {
 	die();
 }
-
-
 
 
 /**  Redirect visitors based on their country */

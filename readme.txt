@@ -3,9 +3,11 @@ Contributors: tahirasad
 Tags: cloudflare, geolocation, redirect, country, geolocation-redirect
 Requires at least: 6.8
 Tested up to: 6.8
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 8.0
 License: GPLv2 or later
+
+Redirects users based on their country using Cloudflare IP geolocation.
 
 == Description ==
 The Country Redirect plugin allows you to redirect users based on their country using Cloudflare's IP Geolocation feature. You can configure custom redirection rules based on the user's country. 
