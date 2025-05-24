@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Country Redirect with IP geolocation
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
-Version: 1.0.2
+Version: 1.0.3
 Author: Tahir Asadli
 Author URI: https://tahir-asadov.github.io/
 Text Domain: redirect-by-country
@@ -194,7 +194,7 @@ function redirect_by_country_settings_page()
 		$redirect_enabled = isset($_POST['redirect_by_country_redirect_enabled']) ? 1 : 0;
 		update_option('redirect_by_country_redirect_enabled', $redirect_enabled);
 
-		echo '<div class="updated"><p>' . esc_html__('Settings saved', 'redirect-by-country') . '</p></div>';
+		echo '<div class="updated"><p>' . esc_html__('Settings saved', 'simple-country-redirect-with-ip-geolocation') . '</p></div>';
 	}
 
 	// Get the settings for rendering
@@ -203,27 +203,29 @@ function redirect_by_country_settings_page()
 	$rules = get_option('redirect_by_country_redirect_rules', array());
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e('Country Redirect Settings', 'redirect-by-country'); ?></h1>
+		<h1><?php esc_html_e('Country Redirect Settings', 'simple-country-redirect-with-ip-geolocation'); ?></h1>
 		<form method="post">
 			<?php wp_nonce_field('redirect_by_country_rules_form'); ?>
 			<table class="widefat" id="ccr-rules-table">
 				<thead>
 					<tr>
-						<th><?php esc_html_e('Country Code', 'redirect-by-country'); ?></th>
-						<th><?php esc_html_e('Redirect URL', 'redirect-by-country'); ?></th>
-						<th><?php esc_html_e('Action', 'redirect-by-country'); ?></th>
+						<th><?php esc_html_e('Country Code', 'simple-country-redirect-with-ip-geolocation'); ?></th>
+						<th><?php esc_html_e('Redirect URL', 'simple-country-redirect-with-ip-geolocation'); ?></th>
+						<th><?php esc_html_e('Action', 'simple-country-redirect-with-ip-geolocation'); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php if (!empty($rules)): ?>
 						<?php foreach ($rules as $rule): ?>
 							<tr>
-								<td><input type="text" placeholder="<?php esc_html_e('Country Code', 'redirect-by-country'); ?>: es"
+								<td><input type="text"
+										placeholder="<?php esc_html_e('Country Code', 'simple-country-redirect-with-ip-geolocation'); ?>: es"
 										name="country[]" value="<?php echo esc_attr($rule['country']); ?>" /></td>
 								<td><input type="url" placeholder="https://example.com/es" name="url[]"
 										value="<?php echo esc_url($rule['url']); ?>" style="width: 100%;" /></td>
 								<td><button type="button"
-										class="button ccr-remove-row"><?php esc_html_e('Remove', 'redirect-by-country'); ?></button></td>
+										class="button ccr-remove-row"><?php esc_html_e('Remove', 'simple-country-redirect-with-ip-geolocation'); ?></button>
+								</td>
 							</tr>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -231,37 +233,37 @@ function redirect_by_country_settings_page()
 			</table>
 			<p>
 				<button type="button" class="button"
-					id="ccr-add-row"><?php esc_html_e('Add Rule', 'redirect-by-country'); ?></button>
+					id="ccr-add-row"><?php esc_html_e('Add Rule', 'simple-country-redirect-with-ip-geolocation'); ?></button>
 			</p>
-			<h2><?php esc_html_e('Settings', 'redirect-by-country'); ?></h2>
+			<h2><?php esc_html_e('Settings', 'simple-country-redirect-with-ip-geolocation'); ?></h2>
 			<table class="form-table">
 				<tr>
 					<th scope="row"><label
-							for="redirect_by_country_redirect_enabled"><?php esc_html_e('Enable Redirects', 'redirect-by-country'); ?></label>
+							for="redirect_by_country_redirect_enabled"><?php esc_html_e('Enable Redirects', 'simple-country-redirect-with-ip-geolocation'); ?></label>
 					</th>
 					<td>
 						<input type="checkbox" id="redirect_by_country_redirect_enabled" name="redirect_by_country_redirect_enabled"
 							value="1" <?php checked(1, $redirect_enabled, true); ?> />
 						<p class="description">
-							<?php esc_html_e('Check to enable country-based redirection', 'redirect-by-country'); ?>
+							<?php esc_html_e('Check to enable country-based redirection', 'simple-country-redirect-with-ip-geolocation'); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row"><label
-							for="redirect_by_country_cookie_days"><?php esc_html_e('Redirect Cookie Lifetime (days)', 'redirect-by-country'); ?></label>
+							for="redirect_by_country_cookie_days"><?php esc_html_e('Redirect Cookie Lifetime (days)', 'simple-country-redirect-with-ip-geolocation'); ?></label>
 					</th>
 					<td>
 						<input type="number" name="redirect_by_country_cookie_days" id="redirect_by_country_cookie_days"
 							value="<?php echo esc_attr($cookie_days); ?>" min="1" />
 						<p class="description">
-							<?php esc_html_e('How many days to prevent repeated redirection', 'redirect-by-country'); ?>
+							<?php esc_html_e('How many days to prevent repeated redirection', 'simple-country-redirect-with-ip-geolocation'); ?>
 						</p>
 					</td>
 				</tr>
 			</table>
 			<p><input type="submit" name="redirect_by_country_rules_submit" class="button-primary"
-					value="<?php esc_html_e('Save Rules', 'redirect-by-country'); ?>"></p>
+					value="<?php esc_html_e('Save Rules', 'simple-country-redirect-with-ip-geolocation'); ?>"></p>
 		</form>
 	</div>
 	<?php
@@ -280,10 +282,9 @@ function redirect_by_country_enqueue_admin_scripts($hook)
 		'ccr-admin-scripts',
 		plugin_dir_url(__FILE__) . 'assets/js/ccr-scripts.js?v=2',
 		array('wp-i18n'),
-		'1.0.1',
+		'1.0.3',
 		true
 	);
-	// wp_set_script_translations('ccr-admin-scripts', 'redirect-by-country');
 }
 
 function redirect_by_country_add_settings_link($links)

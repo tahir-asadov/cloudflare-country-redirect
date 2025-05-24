@@ -4,9 +4,9 @@ document.getElementById('ccr-add-row').addEventListener('click', function () {
   const table = document.querySelector('#ccr-rules-table tbody');
   const row = document.createElement('tr');
   row.innerHTML = `
-      <td><input type="text" placeholder="${__('Country Code', 'redirect-by-country')}: es" name="country[]" value="" /></td>
+      <td><input type="text" placeholder="${__('Country Code', 'simple-country-redirect-with-ip-geolocation')}: es" name="country[]" value="" /></td>
       <td><input type="url" placeholder="https://example.com/es" name="url[]" value="" style="width: 100%;" /></td>
-      <td><button type="button" class="button ccr-remove-row">${__('Remove', 'redirect-by-country')}</button></td>
+      <td><button type="button" class="button ccr-remove-row">${__('Remove', 'simple-country-redirect-with-ip-geolocation')}</button></td>
   `;
   table.appendChild(row);
 });
