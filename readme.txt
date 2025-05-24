@@ -3,7 +3,7 @@ Contributors: tahirasad
 Tags: cloudflare, geolocation, redirect, country, geolocation-redirect
 Requires at least: 6.8
 Tested up to: 6.8
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 8.0
 License: GPLv2 or later
 
@@ -32,6 +32,9 @@ It also allows you to enable or disable redirection, and configure the duration 
 - **Cookie Lifetime**: Configure how many days to prevent repeated redirection.
 
 == Changelog ==
+
+= 1.0.3 =
+* Update text domain
 
 = 1.0.2 =
 * Update plugin informations
