@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Country Redirect with IP geolocation
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
-Version: 1.0.4
+Version: 1.0.5
 Author: Tahir Asadli
 Author URI: https://tahir-asadov.github.io/
 Text Domain: simple-country-redirect-with-ip-geolocation
@@ -24,7 +24,7 @@ function redirect_by_country_geo_redirect()
 		(defined('DOING_AJAX') && DOING_AJAX) ||
 		isset($_COOKIE['redirect_by_country_redirected']) ||
 		!is_front_page() ||
-		!get_option('redirect_by_country_redirect_enabled', 1)
+		!get_option('redirect_by_country_redirect_enabled', '1')
 	) {
 		return;
 	}
@@ -191,7 +191,7 @@ function redirect_by_country_settings_page()
 		$cookie_days = intval($_POST['redirect_by_country_cookie_days'] ?? 7);
 		update_option('redirect_by_country_cookie_days', $cookie_days);
 
-		$redirect_enabled = isset($_POST['redirect_by_country_redirect_enabled']) ? 1 : 0;
+		$redirect_enabled = isset($_POST['redirect_by_country_redirect_enabled']) ? '1' : '0';
 		update_option('redirect_by_country_redirect_enabled', $redirect_enabled);
 
 		echo '<div class="updated"><p>' . esc_html__('Settings saved', 'simple-country-redirect-with-ip-geolocation') . '</p></div>';
@@ -199,7 +199,7 @@ function redirect_by_country_settings_page()
 
 	// Get the settings for rendering
 	$cookie_days = get_option('redirect_by_country_cookie_days', 7);
-	$redirect_enabled = get_option('redirect_by_country_redirect_enabled', 1);
+	$redirect_enabled = get_option('redirect_by_country_redirect_enabled', '1');
 	$rules = get_option('redirect_by_country_redirect_rules', array());
 	?>
 	<div class="wrap">
@@ -282,7 +282,7 @@ function redirect_by_country_enqueue_admin_scripts($hook)
 		'ccr-admin-scripts',
 		plugin_dir_url(__FILE__) . 'assets/js/ccr-scripts.js?v=2',
 		array('wp-i18n'),
-		'1.0.4',
+		'1.0.5',
 		true
 	);
 }
