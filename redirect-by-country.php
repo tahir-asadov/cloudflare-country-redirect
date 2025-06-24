@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Country Redirect with IP geolocation
 Description: Redirects visitors based on their country using Cloudflare's IP geolocation.
-Version: 1.0.5
+Version: 1.0.6
 Author: Tahir Asadli
 Author URI: https://tahir-asadov.github.io/
 Text Domain: simple-country-redirect-with-ip-geolocation
@@ -280,7 +280,7 @@ function redirect_by_country_enqueue_admin_scripts($hook)
 	// Enqueue the JavaScript file
 	wp_enqueue_script(
 		'ccr-admin-scripts',
-		plugin_dir_url(__FILE__) . 'assets/js/ccr-scripts.js?v=2',
+		plugin_dir_url(__FILE__) . 'includes/js/ccr-scripts.js?v=2',
 		array('wp-i18n'),
 		'1.0.5',
 		true
